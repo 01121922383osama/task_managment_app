@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:task_app/core/constants/app_colors.dart';
+import '../constants/app_colors.dart';
 
 import '../extension/screen_utils.dart';
 

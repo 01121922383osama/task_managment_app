@@ -2,18 +2,19 @@ import 'package:firedart/firedart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:task_app/core/constants/app_strings.dart';
-import 'package:task_app/features/TaskManagement/data/datasources/remote/task_remote_data_source.dart';
-import 'package:task_app/features/TaskManagement/data/models/task_models.dart';
-import 'package:task_app/features/TaskManagement/data/repositories/task_repo_impl.dart';
-import 'package:task_app/features/TaskManagement/domain/repositories/task_repo.dart';
-import 'package:task_app/features/TaskManagement/domain/usecases/add_task_usecase.dart';
-import 'package:task_app/features/TaskManagement/domain/usecases/delete_task_usecase.dart';
-import 'package:task_app/features/TaskManagement/domain/usecases/edit_task_usecase.dart';
-import 'package:task_app/features/TaskManagement/presentation/manager/taskManage/taskmanagement_cubit.dart';
-import 'package:task_app/features/TaskManagement/presentation/manager/task_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'core/network/network_info.dart';
+import 'features/Tasaks/presentation/bloc/tasks_bloc.dart';
 
-import 'features/TaskManagement/domain/usecases/get_all_task_usecase.dart';
+import 'core/constants/app_strings.dart';
+import 'features/Tasaks/data/datasources/remote/task_remote_data_source.dart';
+import 'features/Tasaks/data/models/task_models.dart';
+import 'features/Tasaks/data/repositories/task_repo_impl.dart';
+import 'features/Tasaks/domain/repositories/task_repo.dart';
+import 'features/Tasaks/domain/usecases/add_task_usecase.dart';
+import 'features/Tasaks/domain/usecases/delete_task_usecase.dart';
+import 'features/Tasaks/domain/usecases/edit_task_usecase.dart';
+import 'features/Tasaks/domain/usecases/get_all_task_usecase.dart';
 
 final locator = GetIt.instance;
 
@@ -23,17 +24,19 @@ Future<void> init() async {
   // hive
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelsAdapter());
+
   await Hive.openBox<TaskModels>(AppStrings.hiveTaskKey);
-  locator.registerFactory(() => TaskBloc(repo: locator.call()));
+  await Hive.openBox<TaskModels>(AppStrings.unsyncedTasks);
+  await Hive.openBox<String>(AppStrings.deletedTaskIds);
+
   // cubit
-  locator.registerFactory(() => TaskmanagementCubit(
+
+  locator.registerFactory(() => TasksBloc(
         addTaskUsecase: locator.call(),
         deleteTaskUsecase: locator.call(),
         editTaskUsecase: locator.call(),
         allTaskUsecase: locator.call(),
       ));
-  // locator
-  //     .registerFactory(() => GetAllTaskCubit(allTaskUsecase: locator.call()));
   // usecase
   locator.registerLazySingleton(() => AddTaskUsecase(repo: locator.call()));
   locator.registerLazySingleton(() => DeleteTaskUsecase(repo: locator.call()));
@@ -44,8 +47,18 @@ Future<void> init() async {
   locator.registerLazySingleton<TaskRepo>(
       () => TaskRepoImpl(dataSource: locator.call()));
   // data sources
-  locator.registerLazySingleton<TaskRemoteDataSource>(
-      () => TaskRemoteDataSourceImpl(firestore: locator.call()));
+  locator.registerLazySingleton<TaskRemoteDataSource>(() =>
+      TaskRemoteDataSourceImpl(
+          networkInfo: locator.call(), firestore: locator.call()));
   // other
   locator.registerLazySingleton<Firestore>(() => initFirestor);
+  locator.registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoImpl(connectionChecker: locator.call()));
+
+  locator.registerLazySingleton(() => InternetConnection());
+  // check the internet connection
+  final taskRemoteDataSource = locator.get<TaskRemoteDataSource>();
+  if (await taskRemoteDataSource.isNetworkAvailable()) {
+    await taskRemoteDataSource.syncTasks();
+  }
 }

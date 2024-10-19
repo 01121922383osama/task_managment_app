@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:task_app/core/constants/app_strings.dart';
-import 'package:task_app/core/extension/navigations.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/extension/navigations.dart';
 
 import '../../config/router/name_routs.dart';
 

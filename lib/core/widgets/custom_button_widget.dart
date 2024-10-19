@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_app/core/constants/app_colors.dart';
 
+import '../constants/app_colors.dart';
 import '../extension/screen_utils.dart';
 
 class CustomIconButton extends StatelessWidget {
@@ -28,7 +28,7 @@ class CustomIconButton extends StatelessWidget {
         backgroundColor: buttomColor,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         alignment: Alignment.center,
-        minimumSize: Size(context.width * 0.7, 60),
+        minimumSize: Size(context.width * 0.5, 60),
       ),
       onPressed: onPressed,
       child: Text(

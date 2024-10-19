@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:task_app/features/TaskManagement/data/models/task_models.dart';
 
 import 'core/extension/screen_utils.dart';
+import 'features/Tasaks/data/models/task_models.dart';
 
 List<TaskModels> allData = [
   TaskModels(
