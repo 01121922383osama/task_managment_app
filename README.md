@@ -22,6 +22,12 @@
 - 🎨 **Pixel-Perfect UI** - Responsive & adaptive design
 </p>
 
+<p align="center">
+  <img src="Readme/mobile.png" alt="Mobile View" width="300" style="margin-right: 20px;">
+  <img src="Readme/tablet.png" alt="Tablet View" width="400" style="margin-right: 20px;">
+  <img src="Readme/desktop.png" alt="Desktop View" width="500">
+</p>
+
 ---
 
 ## 🛠️ Tech Stack
@@ -50,7 +56,7 @@ graph LR
     E <--> F
     F --> G[Data Consistency]
 ```
-## � Project Structure
+## 📁 Project Structure
 ```markdown
 lib/
 ├── config/                 # Routing & theme config
@@ -68,4 +74,3 @@ lib/
 │           ├── bloc/       # State management
 │           └── views/      # Screens
 └── injection.dart          # DI configuration
-```
