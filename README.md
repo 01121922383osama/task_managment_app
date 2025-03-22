@@ -51,8 +51,7 @@ graph LR
     F --> G[Data Consistency]
 ```
 📂 Project Structure
-bash
-Copy
+
 lib/
 ├── config/                 # Routing & theme config
 ├── core/                   # Shared resources
