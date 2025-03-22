@@ -43,12 +43,13 @@
 ```mermaid
 graph LR
     A[User Interface] --> B[BLoC Layer]
-    B --> C{Internet?}
+    B --> C{"Internet?"}
     C -->|Yes| D[Firebase Cloud]
     C -->|No| E[Hive Local DB]
     D <--> F[Background Sync]
     E <--> F
     F --> G[Data Consistency]
+```
 📂 Project Structure
 bash
 Copy
