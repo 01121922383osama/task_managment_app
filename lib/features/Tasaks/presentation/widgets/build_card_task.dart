@@ -89,11 +89,9 @@ class _BuildCardTaskState extends State<BuildCardTask> {
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(DateTime.now().year + 10),
                                 );
-                                if (pickedDate != null) {
-                                  _dateControllers[index]?.text =
-                                      DateFormat('EEE. dd/MM/yyyy')
-                                          .format(pickedDate);
-                                }
+                                _dateControllers[index]?.text =
+                                    DateFormat('EEE. dd/MM/yyyy')
+                                        .format(pickedDate!);
                               },
                               child: AbsorbPointer(
                                 child: CustomTextfield(
