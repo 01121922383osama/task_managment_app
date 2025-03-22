@@ -50,8 +50,8 @@ graph LR
     E <--> F
     F --> G[Data Consistency]
 ```
-📂 Project Structure
-
+## � Project Structure
+```markdown
 lib/
 ├── config/                 # Routing & theme config
 ├── core/                   # Shared resources
@@ -68,3 +68,4 @@ lib/
 │           ├── bloc/       # State management
 │           └── views/      # Screens
 └── injection.dart          # DI configuration
+```
